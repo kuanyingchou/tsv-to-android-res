@@ -1,11 +1,13 @@
-Automatically turn a tsv file like this:
+## Intro
 
-    key    en-US  zh-CN  zh-TW        ja
-    file    file   文件   檔案  ファイル
+Automatically turn translations like this:
+
+    key    en-US  zh-CN  zh-TW      ja
+    file    file   文件   檔案   ファイル
     edit    edit   编辑   編輯      編集
     print  print   打印   列印      印刷
 
-into this structure:
+into this:
 
     out
     ├── values-en-rUS
@@ -17,7 +19,9 @@ into this structure:
     └── values-zh-rTW
         └── strings.xml
 
-Content of the xml files:
+which can be fed into an Android project directly.
+
+Contents of the xml files generated:
 
 out/values-en-rUS/strings.xml
 
@@ -55,11 +59,25 @@ out/values-zh-rTW/strings.xml
       <string name="print">"列印"</string>
     </resources>
 
-Build:
+## Usage:
 
+1. Prepare the translation file in tsv format. (You can use Google Sheets and its handy `GOOGLETRANSLATE()` function to generate translations automatically, like [this](https://docs.google.com/spreadsheets/d/1DXLyH6ieE_ZPUtEE6T8uc08B2AHe6xySKveUml10bK4/edit?usp=sharing))
+
+3. Build.
     javac Convert.java
 
-Usage:
+4. Run
+    java Convert <path-to-the-translation-file>
 
-    java Convert <tsv-file>
+## Format of the translation file:
 
+Structure:
+
+    | this cell is ignored | lang-a  | lang-b  | lang-c  | ...
+    | key-1                | val-a-1 | val-b-1 | val-c-1 | ...
+    | key-2                | val-a-2 | val-b-2 | val-c-2 | ...
+                             ...
+
+`lang-*` is in `<language>[-<region>]`. `<language>` is a 2-letter code defined in [ISO 639-1](http://www.loc.gov/standards/iso639-2/php/code_list.php). `<region>` is a 2-letter code defined in [ISO 3166-1](https://www.iso.org/obp/ui/#search). 
+
+Note that `<region>` IS NOT preceded by 'r'.
